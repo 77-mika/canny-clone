@@ -3,7 +3,7 @@ import { signup, signin } from "../../controllers/auth.controllers";
 import validate from "../../middlewares/validate";
 import Joi from "joi";
 
-const authRoutes = Router();
+const router = Router();
 
 const signupSchema = Joi.object({
   name: Joi.string().min(2).max(50).required(),
@@ -16,7 +16,7 @@ const signinSchema = Joi.object({
   password: Joi.string().required(),
 });
 
-authRoutes.post("/signup", validate(signupSchema), signup);
-authRoutes.post("/signin", validate(signinSchema), signin);
+router.post("/signup", validate(signupSchema), signup);
+router.post("/signin", validate(signinSchema), signin);
 
-export default authRoutes;
+export default router;

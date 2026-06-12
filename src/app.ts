@@ -4,9 +4,12 @@ import AppError from "./errors/AppError";
 import errorHandler from "./middlewares/errorHandler";
 import morgan from "morgan";
 import logger from "./logging";
+import path from "path";
 
 const app: Application = express();
 app.use(express.json());
+
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
 
 app.use(
     morgan("combined", {

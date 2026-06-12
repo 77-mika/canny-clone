@@ -24,10 +24,11 @@ export const signup = async (
         }
 
         const user = await User.create({ name, email, password });
-        const token = signToken(user._id.toString());
+        // const token = signToken(user._id.toString());
 
         res.status(201).json({
             status: "success",
+            // token,
             user: {
                 id: user._id,
                 name: user.name,
