@@ -4,6 +4,7 @@ import {
     createFeedback,
     getAllFeedbacks,
     getFeedback,
+    toggleVote
 } from "../../controllers/feedback.controller";
 import { protect } from "../../middlewares/protect";
 import validate from "../../middlewares/validate";
@@ -22,5 +23,6 @@ router.get("/:id",getFeedback);
 
 
 router.post("/",protect, upload.single("image"), validate(feedbackSchema),createFeedback);
+router.patch("/:id/vote",protect,toggleVote)
 
 export default router;

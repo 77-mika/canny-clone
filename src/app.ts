@@ -2,6 +2,8 @@ import express, { Application, Request, Response, NextFunction } from "express";
 import v1Route from "./routes/v1";
 import AppError from "./errors/AppError";
 import errorHandler from "./middlewares/errorHandler";
+import swaggerUi from "swagger-ui-express";
+import { swaggerSpec } from "./config/swagger";
 import morgan from "morgan";
 import logger from "./logging";
 import path from "path";
@@ -18,6 +20,8 @@ app.use(
         },
     }),
 );
+
+app.use("/api/docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/v1", v1Route);
 
