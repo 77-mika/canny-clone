@@ -1,6 +1,7 @@
 import { Router, Request, Response } from "express";
 import Joi from "joi";
-import validate from "../../middlewares/validate";
+import authRoutes from "./auth.routes";
+
 
 const router = Router();
 
@@ -13,8 +14,6 @@ router.get("/", (req: Request, res: Response) => {
     res.json({ message: "Canny clone API v1" });
 });
 
-router.post("/test", validate(testSchema), (req: Request, res: Response) => {
-    res.json({ message: "Valid data!", data: req.body });
-});
+router.use("/auth", authRoutes);
 
 export default router;
