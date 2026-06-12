@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import AppError from "../errors/AppError";
+import logger from "../logging";
 
 const errorHandler = (
     err: Error,
@@ -14,10 +15,10 @@ const errorHandler = (
         });
         return;
     }
-    console.error("unexpected error:", err);
+    logger.error(err);
     res.status(500).json({
-        status: "error",
-        message: "something went Wrong",
+        status:"error",
+        message:"Something went wrong",
     });
 };
 

@@ -2,9 +2,19 @@ import express, { Application, Request, Response, NextFunction } from "express";
 import v1Route from "./routes/v1";
 import AppError from "./errors/AppError";
 import errorHandler from "./middlewares/errorHandler";
+import morgan from "morgan";
+import logger from "./logging";
 
 const app: Application = express();
 app.use(express.json());
+
+app.use(
+    morgan("combined", {
+        stream: {
+            write: (message: string) => logger.http(message.trim()),
+        },
+    }),
+);
 
 app.use("/api/v1", v1Route);
 
@@ -12,12 +22,10 @@ app.get("/health", (req: Request, res: Response) => {
     res.json({ status: "ok" });
 });
 
+app.use((req: Request, res: Response, next: NextFunction) => {
+    next(new AppError(`Route ${req.originalUrl} not found`, 404));
+});
 
-app.use((req:Request,res:Response,next:NextFunction)=>{
-    next(new AppError(`Route ${req.originalUrl} not found`,404));
-})
-
-
-app.use(errorHandler)
+app.use(errorHandler);
 
 export default app;
