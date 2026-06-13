@@ -1,9 +1,8 @@
 import app from "./app";
 import dotenv from "dotenv";
+dotenv.config();
 import connectDB from "./config/db";
 import logger from "./logging";
-
-dotenv.config();
 
 const PORT = process.env.PORT || 3000;
 

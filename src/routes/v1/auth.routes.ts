@@ -2,18 +2,26 @@ import { Router } from "express";
 import { signup, signin } from "../../controllers/auth.controllers";
 import validate from "../../middlewares/validate";
 import Joi from "joi";
-
+import { forgotPassword , resetPassword } from "../../controllers/resetPassword.controller";
 const router = Router();
 
 const signupSchema = Joi.object({
-  name: Joi.string().min(2).max(50).required(),
-  email: Joi.string().email().required(),
-  password: Joi.string().min(6).required(),
+    name: Joi.string().min(2).max(50).required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().min(6).required(),
 });
 
 const signinSchema = Joi.object({
-  email: Joi.string().email().required(),
-  password: Joi.string().required(),
+    email: Joi.string().email().required(),
+    password: Joi.string().required(),
+});
+
+const forgotPasswordSchema = Joi.object({
+    email: Joi.string().email().required(),
+});
+
+const resetPasswordSchema = Joi.object({
+    password: Joi.string().min(6).required(),
 });
 /**
  * @swagger
@@ -62,7 +70,6 @@ const signinSchema = Joi.object({
  */
 router.post("/signup", validate(signupSchema), signup);
 
-
 /**
  * @swagger
  * /auth/signin:
@@ -106,5 +113,8 @@ router.post("/signup", validate(signupSchema), signup);
  *               $ref: '#/components/schemas/Error'
  */
 router.post("/signin", validate(signinSchema), signin);
+
+router.post("/forgot-password", validate(forgotPasswordSchema), forgotPassword);
+router.post("/reset-password/:token", validate(resetPasswordSchema), resetPassword);
 
 export default router;
