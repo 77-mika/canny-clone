@@ -38,3 +38,6 @@ temp/
 
 # ts-node-dev
 .rpt2_cache/
+
+
+upload/*
