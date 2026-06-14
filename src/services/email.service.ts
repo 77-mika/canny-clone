@@ -4,7 +4,6 @@ export const sendPasswordResetEmail = async (
     to: string,
     resetToken: string,
 ): Promise<void> => {
-
     const transporter = nodemailer.createTransport({
         host: process.env.SMTP_HOST,
         port: Number(process.env.SMTP_PORT),
@@ -14,6 +13,8 @@ export const sendPasswordResetEmail = async (
             pass: process.env.SMTP_PASS,
         },
     });
+    await transporter.verify();
+    console.log("SMTP connection successful");
 
     const resetUrl = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
 
@@ -39,5 +40,5 @@ export const sendPasswordResetEmail = async (
         `,
     });
 
-    console.log("📬 Preview email at:", nodemailer.getTestMessageUrl(info));
+    console.log("Preview email at:", nodemailer.getTestMessageUrl(info));
 };
